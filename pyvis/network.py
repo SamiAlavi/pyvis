@@ -536,9 +536,9 @@ class Network(object):
 
     def show(self, name, local=True):
         """
-        Writes a static HTML file and saves it locally before opening.
+        Opens a static HTML file
 
-        :param: name: the name of the html file to save as
+        :param: name: the name of the html file to open
         :type name: str
         """
         check_html(name)
