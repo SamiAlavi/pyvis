@@ -504,12 +504,8 @@ class Network(object):
         check_html(name)
         self.html = self.generate_html(notebook=notebook)
 
-        with open(name, "w+") as out:
-            out.write(self.html)
-
         if notebook:
-            with open(name, "w+") as out:
-                out.write(self.html)
+            self.__write_to_file(name)
             return IFrame(name, width=self.width, height=self.height)
         elif notebook and local:
             if not os.path.exists("lib"):
@@ -520,8 +516,7 @@ class Network(object):
                 shutil.copytree(f"{os.path.dirname(__file__)}/templates/lib/tom-select", "lib/tom-select")
             if not os.path.exists("lib/bindings"):
                 shutil.copytree(f"{os.path.dirname(__file__)}/templates/lib/vis-9.1.2", "lib/vis-9.1.2")
-            with open(name, "w+") as out:
-                out.write(self.html)
+            self.__write_to_file(name)
             return IFrame(name, width=self.width, height=self.height)
         else:
             if local:
@@ -533,9 +528,11 @@ class Network(object):
                 shutil.rmtree(f"{tempdir}/lib")
             shutil.copytree(f"{os.path.dirname(__file__)}/templates/lib", f"{tempdir}/lib")
 
-            with open(f"{tempdir}/{name}", "w+") as out:
-                out.write(self.html)
-                # webbrowser.open(f"{tempdir}/{name}")
+            self.__write_to_file(name)
+
+    def __write_to_file(self, name):
+        with open(name, "w+") as out:
+            out.write(self.html)
 
     def show(self, name, local=True):
         """
